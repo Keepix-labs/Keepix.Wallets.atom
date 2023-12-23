@@ -1,4 +1,4 @@
-# Keepix.Wallets.ATOM
+# Keepix.Wallets.cosmos
 
 Library that respects the WalletLibraryInterface.  
 This library is used to create wallets, hold coin and token balances and carry out transactions.  
