@@ -1,13 +1,13 @@
 {
-  "name": "@keepix/wallets-atom",
+  "name": "@keepix/wallets-cosmos",
   "version": "0.0.1",
-  "description": "Wallets ATOM library",
+  "description": "Wallets Cosmos library",
   "private": false,
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Keepix-labs/keepix-wallets-atom.git"
+    "url": "git+https://github.com/Keepix-labs/keepix-wallets-cosmos.git"
   },
   "scripts": {
     "build": "rollup -c --bundleConfigAsCjs && npm run types",

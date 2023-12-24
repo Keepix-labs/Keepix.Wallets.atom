@@ -11,7 +11,7 @@ describe('basic wallet', () => {
     const wallet = new Wallet()
     await wallet.init({
       type: 'atom',
-      rpc: 'https://cosmos-rpc.publicnode.com:443',
+      rpc: { url: 'https://cosmos-rpc.publicnode.com:443' },
       password: 'toto',
     })
 
@@ -24,7 +24,7 @@ describe('basic wallet', () => {
     const wallet = new Wallet()
     await wallet.init({
       type: 'atom',
-      rpc: 'https://cosmos-rpc.publicnode.com:443',
+      rpc: { url: 'https://cosmos-rpc.publicnode.com:443' },
       mnemonic,
     })
 
@@ -37,7 +37,7 @@ describe('basic wallet', () => {
     const wallet = new Wallet()
     await wallet.init({
       type: 'atom',
-      rpc: 'https://cosmos-rpc.publicnode.com:443',
+      rpc: { url: 'https://cosmos-rpc.publicnode.com:443' },
       privateKey,
     })
 
@@ -50,7 +50,7 @@ describe('basic wallet', () => {
     const wallet = new Wallet()
     await wallet.init({
       type: 'atom',
-      rpc: 'https://cosmos-rpc.publicnode.com:443',
+      rpc: { url: 'https://cosmos-rpc.publicnode.com:443' },
     })
 
     expect(wallet.getAddress()).toBeDefined()
@@ -62,7 +62,7 @@ describe('basic wallet', () => {
     const wallet = new Wallet()
     await wallet.init({
       type: 'atom',
-      rpc: 'https://cosmos-rpc.publicnode.com:443',
+      rpc: { url: 'https://cosmos-rpc.publicnode.com:443' },
       mnemonic,
     })
 
@@ -77,7 +77,7 @@ describe('basic wallet', () => {
     const wallet = new Wallet()
     await wallet.init({
       type: 'atom',
-      rpc: 'https://cosmos-rpc.publicnode.com:443',
+      rpc: { url: 'https://cosmos-rpc.publicnode.com:443' },
       mnemonic,
     })
 
@@ -93,7 +93,7 @@ describe('basic wallet', () => {
     const wallet = new Wallet()
     await wallet.init({
       type: 'atom',
-      rpc: 'https://cosmos-rpc.publicnode.com:443',
+      rpc: { url: 'https://cosmos-rpc.publicnode.com:443' },
       mnemonic,
     })
 
@@ -109,7 +109,7 @@ describe('basic wallet', () => {
     const wallet = new Wallet()
     await wallet.init({
       type: 'atom',
-      rpc: 'https://cosmos-rpc.publicnode.com:443',
+      rpc: { url: 'https://cosmos-rpc.publicnode.com:443' },
       mnemonic,
     })
 

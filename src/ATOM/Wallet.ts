@@ -91,7 +91,6 @@ export class Wallet {
   private wallet?: DirectSecp256k1HdWallet | DirectSecp256k1Wallet
   private mnemonic?: string
   private type?: string
-  private keepixTokens?: { coins: any; tokens: any }
   private rpc?: any
   private privateKey?: string
   private account?: AccountData
@@ -113,12 +112,20 @@ export class Wallet {
     privateKey?: string
     type: string
     keepixTokens?: { coins: any; tokens: any } // whitelisted coins & tokens
-    rpc: string
+    rpc: any
     privateKeyTemplate?: string
   }) {
-    this.type = type
-    this.keepixTokens = keepixTokens
-    this.rpc = rpc
+    this.type = type;
+
+    // select one random RPC or override
+    if (keepixTokens != undefined
+      && keepixTokens.coins[type] !== undefined
+      && keepixTokens.coins[type].rpcs != undefined) {
+        this.rpc = keepixTokens.coins[type].rpcs[Math.floor(Math.random()*keepixTokens.coins[type].rpcs.length)].url;
+    }
+    if (rpc !== undefined && rpc.url !== '') {
+      this.rpc = rpc.url;
+    }
     // from password
     if (password !== undefined) {
       const newEntory = createPrivateKey(privateKeyTemplate, password)
