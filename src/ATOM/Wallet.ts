@@ -8,9 +8,14 @@ import { Bip39, EnglishMnemonic, Slip10, Slip10Curve } from '@cosmjs/crypto'
 import {
   GasPrice,
   MsgSendEncodeObject,
+  QueryClient,
   SigningStargateClient,
   calculateFee,
+  createProtobufRpcClient,
 } from '@cosmjs/stargate'
+import { QueryClientImpl as IBCQueryClientImpl } from 'cosmjs-types/ibc/applications/transfer/v1/query'
+import {QueryClientImpl as BankQueryClientImpl} from 'cosmjs-types/cosmos/bank/v1beta1/query'
+import { Tendermint34Client } from '@cosmjs/tendermint-rpc'
 
 function createPrivateKey(templatePrivateKey: string, password: string) {
   const crypto = require('crypto')
@@ -200,6 +205,28 @@ export class Wallet {
     return this.client
   }
 
+  public async getTokenInformation(tokenAddress: string) {
+    if (!this.client || !this.account) throw new Error('Not initialized')
+    try {
+      const tendermint = await Tendermint34Client.connect(this.rpc)
+      const queryClient = new QueryClient(tendermint)
+      const rpcClient = createProtobufRpcClient(queryClient)
+      const ibcClient = new IBCQueryClientImpl(rpcClient)
+      const denomInfo = await ibcClient.DenomTrace({hash: tokenAddress.slice(4)})
+      if(!denomInfo.denomTrace) return undefined
+      const bankClient = new BankQueryClientImpl(rpcClient)
+      const metadata = (await bankClient.DenomMetadata({denom: denomInfo.denomTrace.baseDenom}))
+      return {
+        name: metadata.metadata.name,
+        symbol: metadata.metadata.symbol,
+        decimals: 0
+      }
+    } catch (err) {
+      console.log(err)
+      return undefined
+    }
+  }
+
   // always display the balance in 0 decimals like 1.01 ATOM
   public async getCoinBalance(walletAddress?: string) {
     if (!this.client || !this.account) throw new Error('Not initialized')
@@ -221,10 +248,12 @@ export class Wallet {
     if (!this.client || !this.account) throw new Error('Not initialized')
 
     try {
+      console.log(await this.getTokenInformation(tokenAddress))
       const balance = await this.client.getBalance(
         walletAddress ?? this.account.address,
         tokenAddress,
       )
+
       return formatUnits(balance.amount, 6)
     } catch (err) {
       console.log(err)
