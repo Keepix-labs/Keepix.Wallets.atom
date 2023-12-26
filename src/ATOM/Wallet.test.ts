@@ -73,6 +73,25 @@ describe('basic wallet', () => {
     ).toEqual('877449.35397')
   })
 
+  it('can getTokenInformation', async () => {
+    const wallet = new Wallet()
+    await wallet.init({
+      type: 'atom',
+      rpc: { url: 'https://cosmos-rpc.publicnode.com:443' },
+      mnemonic,
+    })
+
+    expect(
+      await wallet.getTokenInformation(
+        'ibc/F663521BF1836B00F5F177680F74BFB9A8B5654A694D0D2BC249E03CF2509013',
+      ),
+    ).toEqual({
+      name: 'uusdc',
+      symbol: 'uusdc',
+      decimals: 6,
+    })
+  })
+
   it('can getTokenBalance', async () => {
     const wallet = new Wallet()
     await wallet.init({
